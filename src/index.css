@@ -1,0 +1,15 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  img{
+    /* 去除图片的默认3px */
+    display: block;
+    /*  移动端上 图片的宽度一般都是 由父容器来控制 */
+    width: 100%;
+  }
+  body{
+    font-size: 14px;
+  } 

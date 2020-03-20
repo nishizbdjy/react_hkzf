@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
-class index extends Component {
+class citySelect extends Component {
   render() {
     return (
       <Fragment>城市选择</Fragment>
     );
   }
 }
-export default index;
+export default citySelect;

@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
-class News extends Component {
+class index extends Component {
   render() {
     return (
-      <Fragment>资讯</Fragment>
+      <Fragment>首页</Fragment>
     );
   }
 }
-export default News;
+export default index;

@@ -22,7 +22,6 @@ class TabBarExample extends React.Component {
   }
   render() {
     //获取当前URL
-    console.log(this.props)
     const { location } = this.props
     return (
       <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }}>

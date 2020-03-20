@@ -1,14 +1,16 @@
 import React, { Component, Fragment } from 'react';
 //引入轮播图
 import { Carousel, WingBlank } from 'antd-mobile';
-import axios from 'axios'
+// import axios from 'axios'
+//引入封装的axios
+import axios,{baseURL} from '../utils/request'
 class Index extends React.Component {
   state = {
     carouselList:[],
     imgHeight: 180,
   }
  async componentDidMount() {
- let res = await axios.get('http://157.122.54.189:9060/home/swiper')
+ let res = await axios.get('/home/swiper')
    this.setState({
      carouselList: res.data.body
    })
@@ -26,7 +28,7 @@ class Index extends React.Component {
               style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight }}
             >
               <img
-                src={`http://157.122.54.189:9060`+val.imgSrc}
+                src={baseURL+val.imgSrc}
                 alt=""
                 style={{ width: '100%', verticalAlign: 'top' }}
                 onLoad={() => {

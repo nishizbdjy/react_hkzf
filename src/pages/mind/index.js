@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
-class index extends Component {
+class Mind extends Component {
   render() {
     return (
       <Fragment>我的</Fragment>
     );
   }
 }
-export default index;
+export default Mind;

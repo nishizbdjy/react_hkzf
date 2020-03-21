@@ -1,23 +1,87 @@
-.index_nav{
-    width: 100%;
+.index_nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #fff;
+  .nav_item {
+    // flex: 25%;
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    background-color: #fff;
-    .nav_item{
-        // flex: 25%;
-        display:flex;
+    img {
+      width: 50%;
+      margin-top: 6px;
+      margin-bottom: 5px;
+    }
+    p {
+      margin: 5px 0;
+      font-size: 12px;
+    }
+  }
+}
+// 租房小组
+.zufangxz {
+  margin: 10px;
+//   border: 1px solid red;
+  .zu_title {
+    h4 {
+      margin: 0;
+      font-size: 16px;
+    }
+    a {
+      color: #787d82;
+    }
+    margin: 0 4px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .zu_content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .zf_item {
+      flex: 35%;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      &:nth-child(1),
+      &:nth-child(2) {
+        margin-bottom: 10px;
+      }
+      &:nth-child(2n) {
+        margin-left: 10px;
+      }
+      .left {
+        flex: 0.5;
+        display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        img{
-            width: 50%;
-            margin-top: 6px;
-            margin-bottom: 5px;
-        }
-        p{
-          margin:5px 0;
+        margin: 15px 20px 20px 15px;
+        span {
+          &:first-child {
+            font-weight: 700;
+            margin-bottom:10px;
+            color: #333;
+            font-size:14px
+          }
+          color: #999;
           font-size:12px;
         }
+      }
+      .right {
+        flex: 0.5;
+        display: flex;
+        justify-content: center;
+        img {
+          width: 10vw;
+        }
+      }
     }
+  }
 }

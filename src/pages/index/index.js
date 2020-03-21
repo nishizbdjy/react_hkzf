@@ -22,13 +22,17 @@ class Index extends React.Component {
       { id: 3, text: "去出租", imgSrc: img4 }
     ],
     //租房小组数据
-    groups: []
+    groups: [],
+    //资讯数据
+    newsList: []
   }
   componentDidMount() {
     //调用获取轮播图数据
     this.carouselGet()
     //调用获取租房小组数据
     this.groupsGet()
+    //获取资讯
+    this.newsGet()
   }
   //获取轮播图数据
   carouselGet = async () => {
@@ -42,6 +46,12 @@ class Index extends React.Component {
     let res = await axios.get("/home/groups?area=AREA%7C88cff55c-aaa4-e2e0")
     this.setState({
       groups: res.data.body
+    })
+  }
+  newsGet = async () => {
+    let res = await axios.get("/home/news?area=AREA%7C88cff55c-aaa4-e2e0")
+    this.setState({
+      newsList: res.data.body
     })
   }
   render() {
@@ -95,11 +105,30 @@ class Index extends React.Component {
                   <span>{v.desc}</span>
                 </div>
                 <div className={NavCss.right}>
-                <img src={baseURL + v.imgSrc} alt="" />
+                  <img src={baseURL + v.imgSrc} alt="" />
                 </div>
               </div>
             })}
           </div>
+        </div>
+        {/* 资讯 */}
+        <div className={NavCss.zixun}>
+          <div className={NavCss.zixun_title}>
+            <h4>最新资讯</h4>
+          </div>
+            {this.state.
+              newsList.map((v, i) => {
+                return <div className={NavCss.zixun_item} key={i}>
+                  <div className={NavCss.img}><img src={baseURL + v.imgSrc} /></div>
+                  <div className={NavCss.zixun_wenzi}>
+                    <h4>{v.title}</h4>
+                    <div>
+                      <span>{v.from}</span>
+                      <span>{v.date}</span>
+                    </div>
+                  </div>
+                </div>
+              })}
         </div>
       </div>
     );

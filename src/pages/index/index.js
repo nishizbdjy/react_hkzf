@@ -8,6 +8,8 @@ import img1 from '../../assets//images/nav-1.png'
 import img2 from '../../assets//images/nav-2.png'
 import img3 from '../../assets//images/nav-3.png'
 import img4 from '../../assets//images/nav-4.png'
+//样式文件
+import NavCss from './index.module.scss'
 class Index extends React.Component {
   state = {
     carouselList: [],
@@ -30,7 +32,7 @@ class Index extends React.Component {
     return (
       <div>
         {/*轮播图部分*/}
-        <WingBlank>
+        <WingBlank style={{margin:0}}>
           {this.state.carouselList.length && <Carousel
             autoplay
             infinite
@@ -55,8 +57,8 @@ class Index extends React.Component {
           </Carousel>}
         </WingBlank>
         {/* 列表导航*/}
-        <div className="index_nav">
-          {this.state.bendiImg.map(v => <div className="nav_item"
+        <div className={NavCss.index_nav}>
+          {this.state.bendiImg.map(v => <div className={NavCss.nav_item}
             key={v.id}
           >
             <img src={v.imgSrc} alt="" />

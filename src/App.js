@@ -7,7 +7,14 @@ import Home from "../src/pages/home";
 import MapFound from './pages/mapFound';
 //城市列表  非tabBar
 import CitySelect from './pages/citySelect';
-function App() {
+//引入连接仓库的
+import { connect } from "react-redux";
+//分拆action
+import { yibuaction } from "./store/fenchaiStore/index.js";
+function App(props) {
+  //调用分拆action获取城市
+  props.paifachaifen()
+  console.log(11)
   return (
     <div>
       <Router>
@@ -25,5 +32,12 @@ function App() {
     </div>
   );
 }
-
-export default App;
+//让所有页面都可以获取到 获取位置(异步action)
+const paifa = (dispatch) => {
+  return {
+      paifachaifen: function (data) {
+          dispatch(yibuaction(data))
+      }
+  }
+}
+export default connect(null, paifa)(App);

@@ -3,14 +3,8 @@ import React, { Component } from 'react';
 import InputCss from "./index.module.scss";
 //引入连接仓库的
 import { connect } from "react-redux";
-//引入封装的百度地图'
-import { Gatweizhi } from '../../pages/utils/baiduMap'
-//分拆action
-import { yibuaction } from "../../store/fenchaiStore/index.js";
+
 class CityInput extends Component {
-    componentDidMount = () => {
-        this.props.paifachaifen()
-    }
     render() {
         return <div className={InputCss.zdy_input}>
             <div className={InputCss.left}>
@@ -36,15 +30,7 @@ const chongmingming = (state) => {
         CityGPS: state.CityMap.city
     }
 }
-const paifa = (dispatch) => {
-    return {
-        paifachaifen: function (data) {
-            dispatch(yibuaction(data))
-        }
-    }
-
-}
 //
 //将全局数据映射到组件身上
-const connFunc = connect(chongmingming, paifa);
+const connFunc = connect(chongmingming, null);
 export default connFunc(CityInput);

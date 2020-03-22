@@ -14,7 +14,6 @@ import { yibuaction } from "./store/fenchaiStore/index.js";
 function App(props) {
   //调用分拆action获取城市
   props.paifachaifen()
-  console.log(11)
   return (
     <div>
       <Router>

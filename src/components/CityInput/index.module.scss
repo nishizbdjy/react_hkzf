@@ -1,0 +1,42 @@
+.zdy_input {
+    padding: 0 10px;
+    align-items: center;
+    justify-content: space-between;
+    height:35px;
+    display:flex;
+  .left {
+      display:flex;
+      margin: 0 10px;
+      background-color: #fff;
+      align-items: center;
+      font-size:14px;
+      width: 100%;
+      height:100%;
+      border-radius: 2px;
+    .City {
+        border-right:1px solid #c7c4c4;
+        color:#787878;
+        width: 70px;
+        text-align: center;
+      span {
+      }
+      .arrow {
+          font-size:12px;
+      }
+    }
+    .input {
+        color:#adafb1;
+      .seach {
+          margin: 0 10px;
+      }
+      span {
+      }
+    }
+  }
+  .right {
+    .map {
+        font-size:25px;
+        color: #fff;
+    }
+  }
+}

@@ -2,7 +2,9 @@ import React, { Component, Fragment } from 'react';
 //引入轮播图
 import { Carousel, WingBlank } from 'antd-mobile';
 //引入封装的axios
-import axios, { baseURL } from '../utils/request'
+import axios, { baseURL } from '../utils/request';
+//引入自定义输入框组件
+import ZdyInput from '../../components/CityInput/index.js'
 //引入本地图片
 import img1 from '../../assets//images/nav-1.png'
 import img2 from '../../assets//images/nav-2.png'
@@ -56,7 +58,11 @@ class Index extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className={NavCss.index}>
+        {/* 输入框组件 */}
+        <div className={NavCss.zdyInput}>
+        <ZdyInput/>
+        </div>
         {/*轮播图部分*/}
         <WingBlank style={{ margin: 0 }}>
           {this.state.carouselList.length && <Carousel

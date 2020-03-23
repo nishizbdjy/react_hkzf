@@ -1,0 +1,23 @@
+.citySelect {
+  height: 100vh;
+  overflow: hidden;
+  .CityList {
+    height: calc(100vh - 45px);
+    // height: calc(100vh-45px);
+    overflow: auto;
+    background-color: #fff;
+    .City_item {
+      .div {
+        color: #acacac;
+        font-size: 14px;
+        margin: 10px;
+      }
+      .item_item {
+        font-size: 18px;
+        color: #333333;
+        padding: 15px 10px;
+        border-bottom: 1px solid #eee;
+      }
+    }
+  }
+}

@@ -2,6 +2,7 @@
   height: 100vh;
   overflow: hidden;
   .CityList {
+    position: relative;
     height: calc(100vh - 45px);
     // height: calc(100vh-45px);
     overflow: auto;
@@ -22,5 +23,29 @@
         border-bottom: 1px solid #eee;
       }
     }
+  }
+  //字母
+  .City_zimu {
+    color: #333;
+    position: absolute;
+    right: 4px;
+    top: calc((100vh - (100vh - 45px)) / 2);
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50px;
+    }
+  }
+  .pitch {
+    background-color: #21b97a;
+    color: #fff;
   }
 }

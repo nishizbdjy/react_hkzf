@@ -7,9 +7,14 @@ import CityCss from './index.module.scss'
 import { List } from 'react-virtualized';
 class citySelect extends Component {
   state = {
-    List: []
+    //城市列表
+    List: [],
+    //字母列表
+    letter: []
   }
   componentDidMount = async () => {
+    //字母列表
+    let letter = []
     //城市列表
     let CityList = []
     //获取热门城市
@@ -25,6 +30,8 @@ class citySelect extends Component {
       name: '热门城市',
       values: not.map(v => { return { name: v.label } })
     })
+    //添加字母列表
+    letter.push('#', '热')
     //获取城市列表
     const sycity = (await axios.get('/area/city?level=1')).data.body
     // console.log(sycity)
@@ -44,6 +51,8 @@ class citySelect extends Component {
           name: Dxzm,
           values: [{ name: v.label }]
         })
+        //添加字母列表
+        letter.push(Dxzm)
       } else {
         //存在 ,将当前项添加到存在的项里面就可以了
         CityList[index].values.push({ name: v.label })
@@ -51,7 +60,9 @@ class citySelect extends Component {
     });
     //赋值到state
     this.setState({
-      List: CityList
+      List: CityList,
+      //添加字母列表
+      letter
     })
   }
   //插件渲染的函数
@@ -70,8 +81,12 @@ class citySelect extends Component {
   //当前项行高的事件
   itemgao = (data) => {
     const { index } = data
+    //判断最后一个高一点
+    if (index == this.state.List.length - 1) {
+      return 50 + this.state.List[index].values.length * 40
+    }
     //当前项的高度 = 标题40 + (当前项的数组长度 * 40)
-    return 40 + this.state.List[index].values.length * 40
+    return 35 + this.state.List[index].values.length * 40
   }
   render() {
     return (
@@ -91,8 +106,13 @@ class citySelect extends Component {
             rowHeight={this.itemgao}
             rowRenderer={this.rowRenderer}
           />
+          {/* 右边字母快捷 */}
+          <div className={CityCss.City_zimu}>
+            {this.state.letter.map((v) => {
+              return <div key={v}>{v}</div>
+            })}
+          </div>
         </div>
-        {/*  */}
       </div>
     );
   }

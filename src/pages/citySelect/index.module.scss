@@ -13,9 +13,12 @@
         margin: 10px;
       }
       .item_item {
+        display: flex;
+        align-items: center;
         font-size: 18px;
         color: #333333;
-        padding: 15px 10px;
+        height: 40px;
+        padding: 0 10px;
         border-bottom: 1px solid #eee;
       }
     }

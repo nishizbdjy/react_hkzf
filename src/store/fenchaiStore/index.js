@@ -1,5 +1,5 @@
 //调用封装的百度地图
-import { Gatweizhi } from '../../pages/utils/baiduMap'
+import { Gatweizhi } from '../../utils/baiduMap'
 // export const huoquweizhi = (data) => {
 //     //返回告诉管理员的对象
 //     return {

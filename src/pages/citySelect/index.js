@@ -3,6 +3,8 @@ import { NavBar, Icon } from 'antd-mobile';
 import axios from "../../utils/request";
 import { connect } from "react-redux";
 import CityCss from './index.module.scss'
+//可视化插件
+import { List } from 'react-virtualized';
 class citySelect extends Component {
   state = {
     List: []
@@ -52,26 +54,45 @@ class citySelect extends Component {
       List: CityList
     })
   }
+  //插件渲染的函数
+  rowRenderer = ({ key, index, isScrolling, isVisible, style }) => {
+    return (
+      <div className={CityCss.City_item} key={key} style={style}>
+
+        <div className={CityCss.div}>{this.state.List[index].name}</div>
+
+        {this.state.List[index].values.map((v, i) => {
+          return <div key={i} className={CityCss.item_item}>{v.name}</div>
+        })}
+      </div>
+    );
+  }
+  //当前项行高的事件
+  itemgao = (data) => {
+    const { index } = data
+    //当前项的高度 = 标题40 + (当前项的数组长度 * 40)
+    return 40 + this.state.List[index].values.length * 40
+  }
   render() {
     return (
       <div className={CityCss.citySelect}>
         <NavBar
           mode="light"
-          style={{background:"#f6f5f6"}}
+          style={{ background: "#f6f5f6" }}
           icon={<Icon type="left" color="#505050" size="md" />}
           onLeftClick={() => this.props.history.go(-1)}
         >城市选择</NavBar>
         {/* 城市列表 */}
         <div className={CityCss.CityList}>
-          {this.state.List.map((v, i) => {
-            return <div key={i} className={CityCss.City_item}>
-              <div className={CityCss.div}>{v.name}</div>
-              {v.values.map((v, i) => {
-                return <div key={i} className={CityCss.item_item}>{v.name}</div>
-              })}
-            </div>
-          })}
+          <List
+            width={window.screen.width}
+            height={window.screen.height - 40}
+            rowCount={this.state.List.length}
+            rowHeight={this.itemgao}
+            rowRenderer={this.rowRenderer}
+          />
         </div>
+        {/*  */}
       </div>
     );
   }

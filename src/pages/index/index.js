@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 //引入轮播图
 import { Carousel, WingBlank } from 'antd-mobile';
 //引入封装的axios
-import axios, { baseURL } from '../utils/request';
+import axios, { baseURL } from '../../utils/request';
 //引入自定义输入框组件
 import ZdyInput from '../../components/CityInput/index.js'
 //引入本地图片

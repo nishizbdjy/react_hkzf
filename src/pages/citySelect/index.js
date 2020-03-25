@@ -10,7 +10,9 @@ class citySelect extends Component {
     //城市列表
     List: [],
     //字母列表
-    letter: []
+    letter: [],
+    //渲染项索引
+    XuanIndex: 0
   }
   componentDidMount = async () => {
     //字母列表
@@ -71,22 +73,32 @@ class citySelect extends Component {
       <div className={CityCss.City_item} key={key} style={style}>
 
         <div className={CityCss.div}>{this.state.List[index].name}</div>
-
-        {this.state.List[index].values.map((v, i) => {
-          return <div key={i} className={CityCss.item_item}>{v.name}</div>
-        })}
+        <div>
+          {this.state.List[index].values.map((v, i) => {
+            return <div key={i} className={CityCss.item_item}>{v.name}</div>
+          })}
+        </div>
       </div>
     );
   }
   //当前项行高的事件
-  itemgao = (data) => {
-    const { index } = data
+  itemgao = ({ index }) => {
     //判断最后一个高一点
     if (index == this.state.List.length - 1) {
       return 50 + this.state.List[index].values.length * 40
     }
-    //当前项的高度 = 标题40 + (当前项的数组长度 * 40)
-    return 35 + this.state.List[index].values.length * 40
+    //当前项的高度 = 标题40 + (当前项的数组长度 * 40) 注：高度必须跟css一致
+    return 40 + this.state.List[index].values.length * 40
+  }
+  //点击字母切换索引
+  handleZimu = (XuanIndex) => {
+    //修改索引
+    this.setState({ XuanIndex })
+  }
+  //滑动触发
+  onRowsRendered = ({ startIndex }) => {
+   //赋值
+    this.setState({ XuanIndex: startIndex });
   }
   render() {
     return (
@@ -101,15 +113,19 @@ class citySelect extends Component {
         <div className={CityCss.CityList}>
           <List
             width={window.screen.width}
-            height={window.screen.height - 40}
+            height={window.screen.height - 45}
             rowCount={this.state.List.length}
             rowHeight={this.itemgao}
             rowRenderer={this.rowRenderer}
+            onRowsRendered={this.onRowsRendered}
+            scrollToIndex={this.state.XuanIndex}
+            scrollToAlignment="start"
           />
           {/* 右边字母快捷 */}
           <div className={CityCss.City_zimu}>
-            {this.state.letter.map((v) => {
-              return <div key={v}>{v}</div>
+            {this.state.letter.map((v, i) => {
+              return <div key={i} onClick={() => this.handleZimu(i)}
+                className={i == this.state.XuanIndex ? CityCss.pitch : ''}>{v}</div>
             })}
           </div>
         </div>

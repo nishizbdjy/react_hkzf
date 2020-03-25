@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import CityCss from './index.module.scss'
 //可视化插件
 import { List } from 'react-virtualized';
+//引入分拆action
+import {yibuxuanzeCity  } from '../../store/fenchaiStore/index'
 class citySelect extends Component {
   state = {
     //城市列表
@@ -67,6 +69,13 @@ class citySelect extends Component {
       letter
     })
   }
+  //点击选中城市
+  handleCity(city) {
+    //调用redux派发
+    this.props.genhuanCity(city)
+    //返回
+    this.props.history.go(-1)
+  }
   //插件渲染的函数
   rowRenderer = ({ key, index, isScrolling, isVisible, style }) => {
     return (
@@ -75,7 +84,7 @@ class citySelect extends Component {
         <div className={CityCss.div}>{this.state.List[index].name}</div>
         <div>
           {this.state.List[index].values.map((v, i) => {
-            return <div key={i} className={CityCss.item_item}>{v.name}</div>
+            return <div key={i} className={CityCss.item_item} onClick={() => this.handleCity(v.name)}>{v.name}</div>
           })}
         </div>
       </div>
@@ -97,7 +106,7 @@ class citySelect extends Component {
   }
   //滑动触发
   onRowsRendered = ({ startIndex }) => {
-   //赋值
+    //赋值
     this.setState({ XuanIndex: startIndex });
   }
   render() {
@@ -139,4 +148,12 @@ const dangqainchengshi = (state) => {
     dqCity: state.CityMap.city.name
   }
 }
-export default connect(dangqainchengshi, null)(citySelect);
+//选择城市
+const xuanzeCity =(dispatch)=>{
+return {
+  genhuanCity(cityName){
+    dispatch(yibuxuanzeCity(cityName))
+  }
+}
+}
+export default connect(dangqainchengshi,xuanzeCity)(citySelect);

@@ -5,20 +5,37 @@ import MapCss from './index.module.scss';
 import { connect } from 'react-redux';
 import axios from '../../utils/request';
 
-const BMap = window.BMap
+const BMap = window.BMap;
+let map = null
+let index = -1
 class mapFound extends Component {
-  componentDidMount = async () => {
+  //根据点击次数选择对应的项
+  zoomLevels = [
+    {
+      suoyin: 0,
+      zoom: 10,
+      cls: "fgw"
+    },
+    {
+      suoyin: 1,
+      zoom: 12,
+      cls: "fgw"
+    },
+    {
+      suoyin: 2,
+      zoom: 15,
+      cls: "xiao"
+    }
+  ]
+  async  componentDidMount() {
     //redux当前定位信息
     const { name, center } = this.props.dqCity
-    console.log(this.props.dqCity)
-    var map = new BMap.Map("container");    // 创建Map实例
+    map = new BMap.Map("container");    // 创建Map实例
     //当前所在的地理位置
     var point = new BMap.Point(center.lng, center.lat)
-    map.centerAndZoom(point, 11);  // 初始化地图,设置中心点坐标和地图级别
     //添加地图类型控件
     map.addControl(new BMap.NavigationControl());
     map.addControl(new BMap.ScaleControl());
-    map.addControl(new BMap.OverviewMapControl());
     // 设置地图显示的城市 此项是必须设置的
     map.setCurrentCity(name);
     //允许滚动
@@ -27,23 +44,48 @@ class mapFound extends Component {
     const res = await axios.get("/area/info?name=" + name)
     //城市 id 
     const { value } = res.data.body;
+    //调用生成覆盖物
+    this.fugaiwu(value, name)
+  }
+  //封装覆盖物
+  /**
+   * @id:当前城市的id
+   * @dangqianchengshi:当前城市位置
+   */
+  fugaiwu = async (id, dangqainweizhi) => {
+    index++;
+    const zoomObj = this.zoomLevels[index]
+    // 初始化地图,设置中心点坐标和地图级别
+    map.centerAndZoom(dangqainweizhi, zoomObj.zoom);
     //根据id获取当前区域信息
-    const arr = await axios.get('/area/map?id=' + value)
+    const arr = await axios.get('/area/map?id=' + id)
     //房源信息
     const { body } = arr.data;
-    console.log(body)
     //循环添加覆盖物
     body.forEach((v) => {
-      const pit = new BMap.Point(v.coord.longitude,v.coord.latitude)
+      const pit = new BMap.Point(v.coord.longitude, v.coord.latitude)
       var opts = {
         position: pit,    // 指定文本标注所在的地理位置
-        offset: new BMap.Size(30, -30)    //设置文本偏移量
+        // offset: new BMap.Size(30, -30)    //设置文本偏移量
       }
-      var label = new BMap.Label(`<div class="${MapCss.fgw}"><div><span>${v.label}</span><span>${v.count}套</span></div></div>`, opts);  // 创建文本标注对象
+      var label = new BMap.Label(`<div class="${MapCss[zoomObj.cls]}"><div><span>${v.label}</span><span>${v.count}套</span></div></div>`, opts);  // 创建文本标注对象
       label.setStyle({
-         background:"none",
-         border:"none"
+        background: "none",
+        border: "none"
       });
+      //注册点击事件
+      label.addEventListener("click", () => {
+        if (zoomObj.suoyin < 2) {
+          //递归
+          this.fugaiwu(v.value,pit)
+          //清除之前的覆盖物
+          setTimeout(() => {
+            map.clearOverlays()
+          }, 0)
+        }else{
+          // 展示房源列表
+        }
+      })
       map.addOverlay(label);
     })
   }

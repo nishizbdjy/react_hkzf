@@ -3,12 +3,18 @@ import React, { Component, Fragment } from 'react';
 import { NavBar, Icon } from 'antd-mobile';
 import MapCss from './index.module.scss';
 import { connect } from 'react-redux';
-import axios from '../../utils/request';
+import axios, { baseURL } from '../../utils/request';
 
 const BMap = window.BMap;
 let map = null
 class mapFound extends Component {
-  //闭包实现
+  //房源列表
+  state = {
+    foundList: [],
+    //列表的显示
+    ListShow: false
+  }
+  //闭包实现 +自调用函数 +匿名函数
   bibaoBl = (() => {
     //根据点击次数选择对应的项
     let arr = [
@@ -92,6 +98,16 @@ class mapFound extends Component {
           }, 0)
         } else {
           // 展示房源列表
+          console.log(v)
+          //根据id查询房源列表
+          axios.get('/houses?cityId=' + v.value).then(res => {
+            console.log(res)
+            this.setState({
+              foundList: res.data.body.list,
+              ListShow: true
+            })
+          })
+
         }
       })
       map.addOverlay(label);
@@ -110,6 +126,29 @@ class mapFound extends Component {
         >地图找房</NavBar>
         <div className={MapCss.Map}>
           <div id="container" className={MapCss.xianshiMap}>dd</div>
+          {/* 房源列表 */}
+          {this.state.ListShow && <div className={MapCss.foundList}>
+            <div className={MapCss.foundLiist_title}><span>房屋列表</span><span>更多房源</span></div>
+            <div className={MapCss.foundList_bottom}>
+              {this.state.foundList.map((v, i) => {
+                return <div className={MapCss.fl_content} key={i}>
+                  <div className={MapCss.fl_img}>
+                    <img src={baseURL + v.houseImg} />
+                  </div>
+                  <div className={MapCss.fl_right}>
+                    <div className={MapCss.right_title}>{v.title}</div>
+                    <div className={MapCss.right_dizhi}>{v.desc}</div>
+                    <div className={MapCss.right_tedian}>
+                      {v.tags.map((v, i) => {
+                        return <span key={i}>{v}</span>
+                      })}
+                    </div>
+                    <div className={MapCss.right_price}><span>{v.price}</span>元/月</div>
+                  </div>
+                </div>
+              })}
+            </div>
+          </div>}
         </div>
       </div>
     );

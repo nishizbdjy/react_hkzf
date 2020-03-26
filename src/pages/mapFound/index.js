@@ -7,26 +7,33 @@ import axios from '../../utils/request';
 
 const BMap = window.BMap;
 let map = null
-let index = -1
 class mapFound extends Component {
-  //根据点击次数选择对应的项
-  zoomLevels = [
-    {
-      suoyin: 0,
-      zoom: 10,
-      cls: "fgw"
-    },
-    {
-      suoyin: 1,
-      zoom: 12,
-      cls: "fgw"
-    },
-    {
-      suoyin: 2,
-      zoom: 15,
-      cls: "xiao"
+  //闭包实现
+  bibaoBl = (() => {
+    //根据点击次数选择对应的项
+    let arr = [
+      {
+        suoyin: 0,
+        zoom: 10,
+        cls: "fgw"
+      },
+      {
+        suoyin: 1,
+        zoom: 12,
+        cls: "fgw"
+      },
+      {
+        suoyin: 2,
+        zoom: 15,
+        cls: "xiao"
+      }
+    ]
+    let index = -1
+    return () => {
+      index++
+      return arr[index]
     }
-  ]
+  })()
   async  componentDidMount() {
     //redux当前定位信息
     const { name, center } = this.props.dqCity
@@ -53,10 +60,11 @@ class mapFound extends Component {
    * @dangqianchengshi:当前城市位置
    */
   fugaiwu = async (id, dangqainweizhi) => {
-    index++;
-    const zoomObj = this.zoomLevels[index]
+    //调用闭包的函数
+    const kzshuzu = this.bibaoBl()
+    // const zoomObj = this.zoomLevels[index]
     // 初始化地图,设置中心点坐标和地图级别
-    map.centerAndZoom(dangqainweizhi, zoomObj.zoom);
+    map.centerAndZoom(dangqainweizhi, kzshuzu.zoom);
     //根据id获取当前区域信息
     const arr = await axios.get('/area/map?id=' + id)
     //房源信息
@@ -68,21 +76,21 @@ class mapFound extends Component {
         position: pit,    // 指定文本标注所在的地理位置
         // offset: new BMap.Size(30, -30)    //设置文本偏移量
       }
-      var label = new BMap.Label(`<div class="${MapCss[zoomObj.cls]}"><div><span>${v.label}</span><span>${v.count}套</span></div></div>`, opts);  // 创建文本标注对象
+      var label = new BMap.Label(`<div class="${MapCss[kzshuzu.cls]}"><div><span>${v.label}</span><span>${v.count}套</span></div></div>`, opts);  // 创建文本标注对象
       label.setStyle({
         background: "none",
         border: "none"
       });
       //注册点击事件
       label.addEventListener("click", () => {
-        if (zoomObj.suoyin < 2) {
+        if (kzshuzu.suoyin < 2) {
           //递归
-          this.fugaiwu(v.value,pit)
+          this.fugaiwu(v.value, pit)
           //清除之前的覆盖物
           setTimeout(() => {
             map.clearOverlays()
           }, 0)
-        }else{
+        } else {
           // 展示房源列表
         }
       })

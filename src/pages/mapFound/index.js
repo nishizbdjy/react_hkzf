@@ -44,6 +44,12 @@ class mapFound extends Component {
     //redux当前定位信息
     const { name, center } = this.props.dqCity
     map = new BMap.Map("container");    // 创建Map实例
+    //开始拖动事件
+    map.addEventListener('dragstart', () => [
+      this.setState({
+        ListShow:false
+      })
+    ])
     //当前所在的地理位置
     var point = new BMap.Point(center.lng, center.lat)
     //添加地图类型控件
@@ -101,7 +107,6 @@ class mapFound extends Component {
           console.log(v)
           //根据id查询房源列表
           axios.get('/houses?cityId=' + v.value).then(res => {
-            console.log(res)
             this.setState({
               foundList: res.data.body.list,
               ListShow: true

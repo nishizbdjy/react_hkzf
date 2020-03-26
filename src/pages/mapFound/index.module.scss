@@ -43,6 +43,7 @@
 }
 // 列表
 .foundList {
+  transition: display 2s;
   position: fixed;
   top: 50%;
   left: 0;

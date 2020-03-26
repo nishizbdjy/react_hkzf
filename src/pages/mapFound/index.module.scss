@@ -5,3 +5,22 @@
         }
     }
 }
+// 覆盖物
+.fgw{
+    width:70px;
+    height:70px;
+    border-radius: 50%;
+    background: #0eb56a;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid #fff;
+    opacity: 0.8;
+    div{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+    }
+}

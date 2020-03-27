@@ -18,7 +18,7 @@ const  CityInput = React.memo( (props)=>{
         </div>
     </div>
     <div className={InputCss.right} onClick={(()=>{props.history.push("/mapFound")})}>
-        <i className={["iconfont", "icon-map", InputCss.map].join(" ")}></i>
+        <i style={props.style} className={["iconfont", "icon-map", InputCss.map].join(" ")}></i>
     </div>
 </div>
 })

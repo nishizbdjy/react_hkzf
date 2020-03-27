@@ -43,7 +43,6 @@
 }
 // 列表
 .foundList {
-  transition: display 2s;
   position: fixed;
   top: 100%;
   left: 0;
@@ -140,7 +139,7 @@
 
 //
 .List {
-  animation: Lista 2s 1
+  animation: Lista 2s forwards;
 }
 @keyframes Lista {
   0% {
@@ -151,7 +150,7 @@
   }
 }
 .fanList{
-  animation: fanLista 2s 1;
+  animation: fanLista 2s forwards;
 }
 @keyframes fanLista {
   0% {

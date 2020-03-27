@@ -45,7 +45,7 @@
 .foundList {
   transition: display 2s;
   position: fixed;
-  top: 50%;
+  top: 100%;
   left: 0;
   height: 50vh;
   width: 100%;
@@ -135,5 +135,29 @@
         }
       }
     }
+  }
+}
+
+//
+.List {
+  animation: Lista 2s 1
+}
+@keyframes Lista {
+  0% {
+    top: 100%;
+  }
+  100%{
+    top:50%
+  }
+}
+.fanList{
+  animation: fanLista 2s 1;
+}
+@keyframes fanLista {
+  0% {
+    top: 50%;
+  }
+  100%{
+    top:100%
   }
 }

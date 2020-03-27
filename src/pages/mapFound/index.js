@@ -104,7 +104,6 @@ class mapFound extends Component {
           }, 0)
         } else {
           // 展示房源列表
-          console.log(v)
           //根据id查询房源列表
           axios.get('/houses?cityId=' + v.value).then(res => {
             this.setState({
@@ -132,7 +131,7 @@ class mapFound extends Component {
         <div className={MapCss.Map}>
           <div id="container" className={MapCss.xianshiMap}>dd</div>
           {/* 房源列表 */}
-          {this.state.ListShow && <div className={MapCss.foundList}>
+          {<div className={[MapCss.foundList,this.state.ListShow?MapCss.List:MapCss.fanList].join(' ')}>
             <div className={MapCss.foundLiist_title}><span>房屋列表</span><span>更多房源</span></div>
             <div className={MapCss.foundList_bottom}>
               {this.state.foundList.map((v, i) => {

@@ -1,0 +1,30 @@
+.huadong {
+  width: 80vw;
+  height: 100vh;
+  background-color: rgb(8, 50, 238);
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+.left {
+  animation: zuo 1s forwards;
+}
+.right {
+  animation: you 1s forwards;
+}
+@keyframes zuo {
+  0% {
+    left: -80vw;
+  }
+  100% {
+    left: 0;
+  }
+}
+@keyframes you {
+  0% {
+    right: -80vw;
+  }
+  100% {
+    right: 0;
+  }
+}

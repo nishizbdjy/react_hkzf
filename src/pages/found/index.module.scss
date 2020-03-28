@@ -9,24 +9,3 @@
     left: 30px;
   }
 }
-//筛选
-.screen {
-  // 头部列表
-  .screen_top {
-    background-color: #fff;
-    align-items: center;
-    height:40px;
-    display:flex;
-    justify-content: space-around;
-    border-bottom:1px solid #ddd;
-    div{
-      font-size:17px;
-      color: #484848;
-      margin-right:5px;
-      i{
-        color:#bbbbbb;
-        font-size: 14px;
-      }
-    }
-  }
-}

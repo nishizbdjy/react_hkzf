@@ -1,0 +1,54 @@
+//筛选
+.screen {
+  // 头部列表
+  .screen_top {
+    background-color: #fff;
+    align-items: center;
+    height: 40px;
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid #ddd;
+    div {
+      font-size: 17px;
+      color: #484848;
+      margin-right: 5px;
+      i {
+        color: #bbbbbb;
+        font-size: 14px;
+      }
+    }
+  }
+}
+// 选中样式
+.active {
+  color: #21b97a !important;
+}
+.xuanzeqr {
+  height: 50px;
+  width: 100%;
+  .zanwei {
+    height: 15px;
+    background-color: #fff;
+  }
+  .bottom {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    border-top: 1px solid #efefef;
+    div {
+      text-align: center;
+      height: 100%;
+      line-height: 50px;
+      color: #fff;
+    }
+    .bottom_cancel {
+      flex: 2;
+      background-color: #fff;
+      color: #21b97a;
+    }
+    .bottom_affirm {
+      flex: 3;
+      background-color: #21b97a;
+    }
+  }
+}

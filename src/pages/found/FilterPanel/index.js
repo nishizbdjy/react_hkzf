@@ -16,10 +16,13 @@ class FilterPanel extends Component {
         //当前显示的变量
         show: false,
         //当前显示项的索引
-        currentIndex: -1
+        currentIndex: -1,
+        //筛选后的数组
+        ScreeData: [
+            [], [], [], []
+        ]
     }
     componentDidMount() {
-        console.log(this.state.currentIndex)
         //当前城市
         const { name } = this.props.dqweizhi
         //获取城市id
@@ -27,7 +30,6 @@ class FilterPanel extends Component {
             //根据id获取筛选信息
             const { value } = res.data.body
             axios.get('/houses/condition?id=' + value).then(res => {
-                console.log(res)
                 const { body } = res.data;
                 let filterList = []
                 //区域
@@ -46,19 +48,87 @@ class FilterPanel extends Component {
                 this.setState({
                     filterList
                 })
-                console.log(this.state.filterList)
+                // console.log(this.state.filterList)
             })
         })
     }
+    //筛选组件onChange事件
+    ChangePickv = (value) => {
+        console.log(value)
+        //赋值该筛选后的数组
+        let { ScreeData, currentIndex } = this.state
+        ScreeData[currentIndex] = value
+    }
+    //点击确认筛选
+    handleScreeData = () => {
+        //筛选后的数组
+        let { ScreeData, currentIndex } = this.state
+        console.log(ScreeData)
+        //第一项的属性名
+        let areaSubwayName = ScreeData[0][0]
+        //第一项的属性值   (有详细地址就拿详细地址，否则拿地区名)
+        let areaSubwayValue = ScreeData[0][2] == "null" ? ScreeData[0][1] : ScreeData[0][2]
+        //第二项的值
+        let rentType = ScreeData[1][0]
+        //第三项的值
+        let price = ScreeData[2][0]
+        //第四项的值
+        let more = ScreeData[3].join(',')
+        //合成发给后太的数据
+        let filterParams = {
+            [areaSubwayName]: areaSubwayValue,
+            rentType: rentType,
+            price: price,
+            more: more
+        }
+        // console.log(filterParams)
+        //循环删除不合法的的值
+        for (let key in filterParams) {
+            if (["null", undefined, ""].includes(filterParams[key])) {
+                //有删除该项
+                delete filterParams[key]
+            }
+        }
+        console.log(filterParams)
+        //确认后隐藏
+        this.setState({
+            currentIndex: -1
+        })
+    }
+    //第四项的点击确认事件
+    handleMore = (value) => {
+        let { ScreeData, currentIndex } = this.state
+        //判断当前数组中是否存在
+        let index = ScreeData[currentIndex].indexOf(value)
+        //没有添加进去
+        if (index === -1) {
+            ScreeData[currentIndex].push(value)
+        } else {
+            //否则删除
+            ScreeData[currentIndex].splice(index, 1)
+        }
+        //赋值
+        this.setState({ ScreeData })
+    }
+    //第四项的点击清除事件
+    handleelItMore = () => {
+        let { ScreeData, currentIndex } = this.state
+        ScreeData[currentIndex] = []
+        //赋值、
+        this.setState({ ScreeData})
+    }
+    //筛选确认后生成后台需要的数据，及筛选清除，点击遮罩层、取消隐藏(点击取消暂时只是简单的隐藏)
     //渲染函数
     xuanran = () => {
-        const { topList, filterList, currentIndex } = this.state
+        const { topList, filterList, currentIndex ,ScreeData} = this.state
         if (currentIndex == -1) {
             return <></>
         } else if ([0, 1, 2].includes(currentIndex)) {
             return <><div className={FilterPanelCss.PickerView}> <PickerView
                 cols={topList[currentIndex].cols}
                 data={filterList[currentIndex]}
+                onChange={this.ChangePickv}
+                value={ScreeData[currentIndex]}
             />
                 {/* 确认 */}
                 <div className={FilterPanelCss.xuanzeqr}>
@@ -67,7 +137,7 @@ class FilterPanel extends Component {
                     </div>
                     <div className={FilterPanelCss.bottom}>
                         <div className={FilterPanelCss.bottom_cancel} onClick={() => this.setState({ currentIndex: -1 })}>取消</div>
-                        <div className={FilterPanelCss.bottom_affirm}>确认</div>
+                        <div className={FilterPanelCss.bottom_affirm} onClick={this.handleScreeData}>确认</div>
                     </div>
                 </div>
             </div>
@@ -83,15 +153,15 @@ class FilterPanel extends Component {
                                         <div className={FilterPanelCss.item_title}>{v.title}</div>
                                         <div className={FilterPanelCss.item_content}>
                                             {v.children.map((v, i) => {
-                                                return <div key={i}>{v.label}</div>
+                                                return <div key={i} className={[this.state.ScreeData[3].includes(v.value) ? FilterPanelCss.active_four : '']} onClick={() => this.handleMore(v.value)}>{v.label}</div>
                                             })}
                                         </div>
                                     </div>
                                 })}
                             </div>
                             <div className={FilterPanelCss.btn}>
-                                <div className={FilterPanelCss.quxiao} onClick={() => this.setState({ currentIndex: -1 })}>清除</div>
-                                <div className={FilterPanelCss.queren}>确认</div>
+                                <div className={FilterPanelCss.quxiao} onClick={this.handleelItMore}>清除</div>
+                                <div className={FilterPanelCss.queren} onClick={this.handleScreeData}>确认</div>
                             </div>
                         </div>
                     </Huadong>
@@ -103,9 +173,9 @@ class FilterPanel extends Component {
         return <div>
             <div className={FilterPanelCss.screen}>
                 {/* 遮罩层 */}
-                <div hidden={this.state.currentIndex == -1} className={FilterPanelCss.zzc}></div>
+                <div hidden={this.state.currentIndex == -1} onClick={() => this.setState({ currentIndex: -1 })} className={FilterPanelCss.zzc}></div>
                 {/* 判断索引=3，将层级降级 */}
-                <div className={[FilterPanelCss.screen_kuai,this.state.currentIndex == 3 ? FilterPanelCss.gaocj : ''].join(" ")}>
+                <div className={[FilterPanelCss.screen_kuai, this.state.currentIndex == 3 ? FilterPanelCss.gaocj : ''].join(" ")}>
                     {/* 头部列表 */}
                     <div className={FilterPanelCss.screen_top}>
                         {/* 区域 */}
@@ -114,10 +184,9 @@ class FilterPanel extends Component {
                             className={[i == this.state.currentIndex ? FilterPanelCss.active : '']}>{v.value}< i className={["iconfont", "icon-arrow", i == this.state.currentIndex ? FilterPanelCss.active : ''].join(" ")} /></div>
                         )}
                     </div>
-                    </div>
-                    {/* pickerView插件 */}
-                    {this.xuanran()}
-              
+                </div>
+                {/* pickerView插件 */}
+                {this.xuanran()}
             </div>
         </div>
     }

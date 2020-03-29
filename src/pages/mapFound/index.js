@@ -4,6 +4,8 @@ import { NavBar, Icon } from 'antd-mobile';
 import MapCss from './index.module.scss';
 import { connect } from 'react-redux';
 import axios, { baseURL } from '../../utils/request';
+//引入封装的列表组件
+import FoundList from '../../components/FoundList'
 
 const BMap = window.BMap;
 let map = null
@@ -47,7 +49,7 @@ class mapFound extends Component {
     //开始拖动事件
     map.addEventListener('dragstart', () => [
       this.setState({
-        ListShow:false
+        ListShow: false
       })
     ])
     //当前所在的地理位置
@@ -131,24 +133,11 @@ class mapFound extends Component {
         <div className={MapCss.Map}>
           <div id="container" className={MapCss.xianshiMap}>dd</div>
           {/* 房源列表 */}
-          {<div className={[MapCss.foundList,this.state.ListShow?MapCss.List:MapCss.fanList].join(' ')}>
+          {<div className={[MapCss.foundList, this.state.ListShow ? MapCss.List : MapCss.fanList].join(' ')}>
             <div className={MapCss.foundLiist_title}><span>房屋列表</span><span>更多房源</span></div>
             <div className={MapCss.foundList_bottom}>
               {this.state.foundList.map((v, i) => {
-                return <div className={MapCss.fl_content} key={i}>
-                  <div className={MapCss.fl_img}>
-                    <img src={baseURL + v.houseImg} />
-                  </div>
-                  <div className={MapCss.fl_right}>
-                    <div className={MapCss.right_title}>{v.title}</div>
-                    <div className={MapCss.right_dizhi}>{v.desc}</div>
-                    <div className={MapCss.right_tedian}>
-                      {v.tags.map((v, i) => {
-                        return <span key={i}>{v}</span>
-                      })}
-                    </div>
-                    <div className={MapCss.right_price}><span>{v.price}</span>元/月</div>
-                  </div>
+                return <div key={i}><FoundList item={v} />
                 </div>
               })}
             </div>

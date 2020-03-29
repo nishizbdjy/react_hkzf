@@ -8,7 +8,9 @@ import axios from '../../utils/request';
 import FilterPanel from './FilterPanel';
 //列表组件
 import FoundList from '../../components/FoundList';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+//可视化组件
+import { List } from 'react-virtualized'
 class Found extends Component {
   state = {
     //筛选条件的分页
@@ -42,6 +44,12 @@ class Found extends Component {
     //赋值
     this.setState({ list: list })
   }
+
+  //可视化组件渲染函数
+  Listhanshu = ({ style, key, index }) => {
+    return <div style={style} className={foundCss.Found_List_item} key={key}><FoundList item={this.state.list[index]} />
+    </div>
+  }
   render() {
     return (
       <div>
@@ -60,15 +68,20 @@ class Found extends Component {
         </div>
         {/* 筛选列表 */}
         <div className={foundCss.shaixuanzujian}>
-        <FilterPanel shaixuan={this.handleFiltrate} />
+          <FilterPanel shaixuan={this.handleFiltrate} />
         </div>
         {/* 房源列表展示 */}
+        {/* 可视化组件 */}
         <div className={foundCss.Found_List}>
-          {this.state.list.map((v, i) => {
-            return <div className={foundCss.Found_List_item} key={i}><FoundList item={v} />
-            </div>
-          })}
-        </div>
+        <List
+          width={window.screen.width}
+          height={window.screen.height - 135}
+          rowHeight={120}
+          rowCount={this.state.list.length}
+          rowHeight={128}
+          rowRenderer={this.Listhanshu}
+        />
+      </div>
       </div>
     );
   }

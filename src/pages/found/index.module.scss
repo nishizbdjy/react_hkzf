@@ -9,3 +9,17 @@
     left: 30px;
   }
 }
+// .shaixuanzujian {
+//   position: sticky;
+//   top: 0;
+// }
+// 列表
+.Found_List {
+  padding: 0 20px;
+  background-color: #fff;
+  width: 100%;
+  height: calc(100vh - 135px);
+  overflow: auto;
+  .Found_List_item {
+  }
+}

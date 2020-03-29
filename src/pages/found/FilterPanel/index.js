@@ -54,7 +54,7 @@ class FilterPanel extends Component {
     }
     //筛选组件onChange事件
     ChangePickv = (value) => {
-        console.log(value)
+        // console.log(value)
         //赋值该筛选后的数组
         let { ScreeData, currentIndex } = this.state
         ScreeData[currentIndex] = value
@@ -63,7 +63,7 @@ class FilterPanel extends Component {
     handleScreeData = () => {
         //筛选后的数组
         let { ScreeData, currentIndex } = this.state
-        console.log(ScreeData)
+        // console.log(ScreeData)
         //第一项的属性名
         let areaSubwayName = ScreeData[0][0]
         //第一项的属性值   (有详细地址就拿详细地址，否则拿地区名)
@@ -89,7 +89,9 @@ class FilterPanel extends Component {
                 delete filterParams[key]
             }
         }
-        console.log(filterParams)
+        // console.log(filterParams)
+        //调用父组件的事件,传递参数
+        this.props.shaixuan(filterParams)
         //确认后隐藏
         this.setState({
             currentIndex: -1
@@ -115,12 +117,12 @@ class FilterPanel extends Component {
         let { ScreeData, currentIndex } = this.state
         ScreeData[currentIndex] = []
         //赋值、
-        this.setState({ ScreeData})
+        this.setState({ ScreeData })
     }
     //筛选确认后生成后台需要的数据，及筛选清除，点击遮罩层、取消隐藏(点击取消暂时只是简单的隐藏)
     //渲染函数
     xuanran = () => {
-        const { topList, filterList, currentIndex ,ScreeData} = this.state
+        const { topList, filterList, currentIndex, ScreeData } = this.state
         if (currentIndex == -1) {
             return <></>
         } else if ([0, 1, 2].includes(currentIndex)) {

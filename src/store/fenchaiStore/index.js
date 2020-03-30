@@ -31,3 +31,9 @@ export const yibuxuanzeCity=(cityName)=>{
         })
     }
 }
+//清空当前城市
+export const qingkongCity =()=>{
+    return {
+        type:"qingkong"
+    }
+}

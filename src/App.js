@@ -14,7 +14,7 @@ import { yibuaction } from "./store/fenchaiStore/index.js";
 class App extends Component {
   componentDidMount = () => [
     //调用分拆action获取城市
-    // this.props.paifachaifen()
+    this.props.paifachaifen()
   ]
   render() {
     return (

@@ -6,7 +6,7 @@ import CityCss from './index.module.scss'
 //可视化插件
 import { List } from 'react-virtualized';
 //引入分拆action
-import {yibuxuanzeCity  } from '../../store/fenchaiStore/index'
+import {yibuxuanzeCity,qingkongCity  } from '../../store/fenchaiStore/index'
 class citySelect extends Component {
   state = {
     //城市列表
@@ -17,6 +17,7 @@ class citySelect extends Component {
     XuanIndex: 0
   }
   componentDidMount = async () => {
+    console.log(this.props.dqCity)
     //字母列表
     let letter = []
     //城市列表
@@ -152,6 +153,9 @@ const dangqainchengshi = (state) => {
 const xuanzeCity =(dispatch)=>{
 return {
   genhuanCity(cityName){
+    //清空当前城市
+    dispatch(qingkongCity())
+    //修改当前城市
     dispatch(yibuxuanzeCity(cityName))
   }
 }

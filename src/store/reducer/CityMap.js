@@ -8,13 +8,16 @@ const defaultState = {
   }
 }
 export default (state = defaultState, action) => {
+  let newCity = JSON.parse(JSON.stringify(state))
   switch (action.type) {
     case "Map":
-      let newCity = JSON.parse(JSON.stringify(state))
       newCity.city = action.res
       return newCity
       break;
-
+    case "qingkong":
+      newCity.city = {}
+      return newCity
+      break;
     default:
       break;
   }

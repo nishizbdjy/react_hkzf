@@ -29,6 +29,7 @@ class Found extends Component {
   IsLoadding = false
   async componentDidMount() {
     const { cityName } = this.props
+    console.log(cityName)
     //获取城市id
     let id = (await axios.get('/area/info?name=' + cityName)).data.body.value
     //赋值

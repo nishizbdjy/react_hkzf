@@ -6,7 +6,7 @@ import CityCss from './index.module.scss'
 //可视化插件
 import { List } from 'react-virtualized';
 //引入分拆action
-import {yibuxuanzeCity,qingkongCity  } from '../../store/fenchaiStore/index'
+import { yibuxuanzeCity, qingkongCity } from '../../store/fenchaiStore/index'
 class citySelect extends Component {
   state = {
     //城市列表
@@ -22,8 +22,11 @@ class citySelect extends Component {
     let letter = []
     //城市列表
     let CityList = []
-    //获取热门城市
-    const not = (await axios.get('/area/hot')).data.body
+    //获取热门城市、城市列表
+    //使用promise.all
+    const liangge = await Promise.all([axios.get('/area/hot'),axios.get('/area/city?level=1')])
+    const not = liangge[0].data.body
+    const sycity = liangge[1].data.body
     //将当前城市跟热门城市添加到数组中
     CityList.push({
       name: '当前定位',
@@ -37,8 +40,6 @@ class citySelect extends Component {
     })
     //添加字母列表
     letter.push('#', '热')
-    //获取城市列表
-    const sycity = (await axios.get('/area/city?level=1')).data.body
     // console.log(sycity)
     //将城市列表排序
     sycity.sort((a, b) => a.short < b.short ? -1 : 1)
@@ -150,14 +151,14 @@ const dangqainchengshi = (state) => {
   }
 }
 //选择城市
-const xuanzeCity =(dispatch)=>{
-return {
-  genhuanCity(cityName){
-    //清空当前城市
-    dispatch(qingkongCity())
-    //修改当前城市
-    dispatch(yibuxuanzeCity(cityName))
+const xuanzeCity = (dispatch) => {
+  return {
+    genhuanCity(cityName) {
+      //清空当前城市
+      dispatch(qingkongCity())
+      //修改当前城市
+      dispatch(yibuxuanzeCity(cityName))
+    }
   }
 }
-}
-export default connect(dangqainchengshi,xuanzeCity)(citySelect);
+export default connect(dangqainchengshi, xuanzeCity)(citySelect);
